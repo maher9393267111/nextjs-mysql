@@ -29,7 +29,7 @@ console.log('poss',data)
 
 
 export async function getServerSideProps(context) {
-   const res = await fetch(`${server}/api/system`);
+   const res = await fetch(`${server}/api/auth/login`);
    console.log('res',res)
    const data = await res.json();
    console.log('res------>',data)
