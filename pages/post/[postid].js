@@ -7,6 +7,7 @@ import { useState } from 'react';
 import AlertDelete from '../../components/AlertDelete';
 
 const PostSingle = ({data,postid}) => {
+    console.log('postid is--->',postid)
 
     const [deleteAlerte, setDeleteAlerte] = useState(false);
 
@@ -19,6 +20,16 @@ const PostSingle = ({data,postid}) => {
 
 
             <p dangerouslySetInnerHTML={{ __html: data[0]?.desc }} />
+
+
+<div>
+    <Link href={`/${postid}/update`}>
+        <Button variant="contained" color="primary">
+            <EditIcon />
+            Update
+        </Button>
+    </Link>
+</div>
 
 
 

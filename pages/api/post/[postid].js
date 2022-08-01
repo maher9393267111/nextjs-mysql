@@ -37,11 +37,11 @@ export default async function handler(req, res) {
   // UPDATE SELECTED SYSTEME
   else if (req.method === 'PUT') {
     const { name, desc, image } = req.body.newData;
-    const id = req.query.id;
+    const id = req.query.postid;
     try {
       const result = await excuteQuery({
         query:
-          'UPDATE `systeme` SET `id_systeme`= ?,`name_systeme`= ?,`desc_systeme`= ?,`image_systeme`= ? WHERE id_systeme = ?',
+          'UPDATE `posts` SET `id`= ?,`name`= ?,`desc`= ?,`image`= ? WHERE id = ?',
         values: [id, name, desc, image, id]
       });
       res.status(200).json(result);
