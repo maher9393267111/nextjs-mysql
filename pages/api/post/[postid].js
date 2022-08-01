@@ -22,9 +22,10 @@ export default async function handler(req, res) {
   // DELETE SELECTED SYSTEME
   else if (req.method === 'POST') {
     try {
-      const id = req.query.id;
+      const id = req.query.postid;
+      console.log('id',id)
       const result = await excuteQuery({
-        query: 'DELETE FROM `systeme` WHERE id_systeme = ?',
+        query: 'DELETE FROM `posts` WHERE id = ?',
         values: id
       });
       res.status(200).json(result);
