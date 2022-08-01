@@ -41,11 +41,35 @@ export const CreatePost= async (req, res) => {
     });
    
  
-    
-    
-    
-    
+
     
     }
     
     
+
+
+     export const UpdatePost= async (req, res) => {
+
+        const { id } = req.query;
+        const { title, content } = req.body;
+    
+        // update post
+
+        const update = await db('posts2')
+                                .where({ id })
+                                .update({
+                                    title,
+                                    content
+                                });
+    
+        // fetch updated post after update
+        const updatedData = await db('posts').where({ id }).first();
+    
+        res.status(200);
+        res.json({
+            message: 'Post updated successfully',
+            data: updatedData
+        });
+
+
+     }
