@@ -18,12 +18,29 @@ const Createpost = () => {
     const [image, setImage] = useState();
 
 
+  // handle image change
+const sendImage = (e) => {
+  e.preventDefault();
+  let reader = new FileReader();
+  let file = e.target.files[0];
+  reader.onloadend = () => {
+    setImage(reader.result);
+  //  console.log('RESULT----->',reader.result);
+  }
+  reader.readAsDataURL(file);
+ console.log('image💠💠💠',image);
+
+}
+
+
+
+
     const handleUpdate = async (e) => {
         e.preventDefault();
         const newData = {
           name,
           desc,
-          image: 'https://via.placeholder.com/150'
+          image: image ? image : 'https://via.placeholder.com/150'
         };
         console.log('newData', newData);
         await  axios.post(`${server}/api/system`, newData);
@@ -40,6 +57,14 @@ const Createpost = () => {
                 <h1>Create Post</h1>
 
                 <div>
+
+<div>
+  <input type="file" onChange={sendImage} />
+</div>
+
+<img src={image} alt="" />
+
+
       <Input value={name} onChange={(e) => setName(e.target.value)} />
       <ReactQuill preserveWhitespace value={desc} onChange={setDesc} />
       <Button onClick={handleUpdate}>Save</Button>

@@ -41,7 +41,10 @@ const Update = ({data:post,id}) => {
         <div>
             <h1>Update Post Page</h1>
 
-{name}
+
+<img 
+style={{"width":"100px","height":"100px"}}
+src={image} alt="" />
 
 
 <div>

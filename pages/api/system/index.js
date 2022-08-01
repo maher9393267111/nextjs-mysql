@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     console.log('req method', req.method);
 console.log('req.body',req.body)
     const { name, desc, image } = req.body;
-    console.log('name', name);
+    console.log('Imageee 💠💠💠---->', image);
     try {
       const result = await excuteQuery({
         query:
