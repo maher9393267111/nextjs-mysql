@@ -73,3 +73,18 @@ export const CreatePost= async (req, res) => {
 
 
      }
+
+
+
+        export const DeletePost= async (req, res) => {
+
+            const { id } = req.query;
+
+            const deleteRow = await db('posts2').where({ id }).del();
+        
+            res.status(200);
+            res.json({
+                message: 'Post deleted successfully'
+            });
+
+        }
