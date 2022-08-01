@@ -24,7 +24,9 @@ res.json({
 export const CreatePost= async (req, res) => {
 
     const { title, content } = req.body;
+    console.log(req.body);
 
+    try{
     const create = await db('posts2').insert({
         title,
         content
@@ -41,6 +43,15 @@ export const CreatePost= async (req, res) => {
     });
    
  
+}   catch(err){
+
+    console.log(err)
+    res.status(500);
+    res.json({
+        message: 'Error creating post',
+        data: err
+    });
+}
 
     
     }
