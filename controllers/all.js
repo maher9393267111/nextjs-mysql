@@ -5,10 +5,10 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 
-export const Allposts= async (req, res) => {
+export const Allposts= async (req, res ,next) => {
 
-   
-const posts = await db('posts');
+   try { 
+const posts = await db('posts2');
 
 res.status(200);
 res.json({
@@ -16,6 +16,13 @@ res.json({
     data: posts
 });
 
+   } catch (error) {
+
+    res.status(500).json({
+        message: 'Error',
+        data: error.message
+   });
+}
 
 
 }
