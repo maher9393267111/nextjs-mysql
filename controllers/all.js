@@ -178,6 +178,22 @@ export const CreatePost= async (req, res) => {
             const salt = bcrypt.genSaltSync(10);
             const passwordHash = bcrypt.hashSync(password, salt);
         
+
+            const checkUser = await db('users2')
+            .where({ email })
+            .first();
+
+           
+
+                                    console.log('checkUser-------->',checkUser)
+        
+            if(checkUser) return res.status(402).json({
+                message: 'User already exists',
+                data: checkUser
+             });
+
+
+
             const register = await db('users2').insert({
                 email,
                 password: passwordHash
