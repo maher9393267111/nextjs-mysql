@@ -107,11 +107,21 @@ export const CreatePost= async (req, res) => {
 
         export const Login= async (req, res) => {
 
+  try {
+
+  
+
+
             const { email, password } = req.body;
+            console.log('login data-->',req.body);
 
             const checkUser = await db('users2')
-                                    .where({ email })
-                                    .first();
+            .where({ email })
+            .first();
+
+           
+
+                                    console.log('checkUser-------->',checkUser)
         
             if(!checkUser) return res.status(401).end();
         
@@ -125,12 +135,25 @@ export const CreatePost= async (req, res) => {
             }, process.env.JWT_SECRET, {
                 expiresIn: '7d'
             });
+            console.log('token-------->',token)
         
             res.status(200);
             res.json({
                 message: 'Login successfully',
                 token
             });
+        } 
+
+        catch(err){
+
+
+            res.status(500)
+            res.json({
+                message: 'Error Login user',
+                data: err.message
+            });
+        }
+
 
 
         }
@@ -144,7 +167,7 @@ export const CreatePost= async (req, res) => {
 
             
             const { email, password } = req.body;
-            console.log(req.body);
+            console.log('register data ----->',req.body);
             const salt = bcrypt.genSaltSync(10);
             const passwordHash = bcrypt.hashSync(password, salt);
         
@@ -169,7 +192,7 @@ export const CreatePost= async (req, res) => {
             res.status(500)
             res.json({
                 message: 'Error registering user',
-                data: err
+                data: err.message
             });
         }
 
