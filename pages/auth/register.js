@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-//import { unauthPage } from '../../middlewares/authorizationPage';
+import { unauthPage } from '../../middlware/authorizationPage';
 import Link from 'next/link';
 
 export async function getServerSideProps(ctx) {
-    //await unauthPage(ctx);
+    await unauthPage(ctx);
 
     return { props: {} }
 }

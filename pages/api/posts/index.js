@@ -4,7 +4,9 @@ import authorization from '../../../middlware/auth'
 
 const handler = nc();
 
-handler.use(authorization).get(Allposts)
+handler
+//.use(authorization)
+.get(Allposts)
 
 
 export default handler;

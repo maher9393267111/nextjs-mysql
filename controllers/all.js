@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 export const Allposts= async (req, res ,next) => {
 
    try { 
-const posts = await db('posts2');
+const posts = await db('posts4');
 
 res.status(200);
 res.json({
@@ -83,7 +83,7 @@ export const CreatePost= async (req, res) => {
                                 });
     
         // fetch updated post after update
-        const updatedData = await db('posts').where({ id }).first();
+        const updatedData = await db('posts2').where({ id }).first();
     
         res.status(200);
         res.json({
