@@ -1,7 +1,8 @@
 
 
 import  db from '../lib/dbknex'
-
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 
 export const Allposts= async (req, res) => {
@@ -23,17 +24,18 @@ res.json({
 
 export const CreatePost= async (req, res) => {
 
-    const { title, content } = req.body;
+    const { title, content  } = req.body;
     console.log(req.body);
 
     try{
-    const create = await db('posts2').insert({
+    const create = await db('posts4').insert({
         title,
-        content
+        content,
+        
     });
     
     console.log('create',create)
-    const createdData = await db('posts2').where('id', create).first();
+    const createdData = await db('posts4').where('id', create).first();
 
     console.log('createdData',createdData)
     res.status(200);
@@ -97,5 +99,79 @@ export const CreatePost= async (req, res) => {
             res.json({
                 message: 'Post deleted successfully'
             });
+
+        }
+
+
+
+
+        export const Login= async (req, res) => {
+
+            const { email, password } = req.body;
+
+            const checkUser = await db('users2')
+                                    .where({ email })
+                                    .first();
+        
+            if(!checkUser) return res.status(401).end();
+        
+            const checkPassword = await bcrypt.compare(password, checkUser.password);
+        
+            if(!checkPassword) return res.status(401).end();
+        
+            const token = jwt.sign({
+                id: checkUser.id,
+                email: checkUser.email
+            }, process.env.JWT_SECRET, {
+                expiresIn: '7d'
+            });
+        
+            res.status(200);
+            res.json({
+                message: 'Login successfully',
+                token
+            });
+
+
+        }
+
+
+
+        export const Register  = async (req,res) => {
+
+
+            try {
+
+            
+            const { email, password } = req.body;
+            console.log(req.body);
+            const salt = bcrypt.genSaltSync(10);
+            const passwordHash = bcrypt.hashSync(password, salt);
+        
+            const register = await db('users2').insert({
+                email,
+                password: passwordHash
+            });
+        
+            const registeredUser = await db('users2')
+                                            .where({ id: register })
+                                            .first();
+        
+            res.status(200);
+            res.json({
+                message: 'User registered successfully',
+                data: registeredUser
+            });
+
+        }   catch(err){
+
+
+            res.status(500)
+            res.json({
+                message: 'Error registering user',
+                data: err
+            });
+        }
+
 
         }

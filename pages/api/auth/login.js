@@ -1,10 +1,10 @@
 import nc from 'next-connect'
-import {Allposts} from '../../../controllers/all'
+import {Login} from '../../../controllers/all'
 
 const handler = nc();
 
-handler.get(
-    Allposts
+handler.post(
+   
 )
 
 export default handler;

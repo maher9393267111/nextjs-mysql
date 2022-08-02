@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return Promise.all([
-        knex.schema.createTable('posts2', function(table) {
+        knex.schema.createTable('posts4', function(table) {
             table.increments();
             table.string('title');
             table.text('content');
@@ -11,7 +11,7 @@ exports.up = function(knex) {
   
    
   
-      knex.schema.createTable('plans', function (table) {
+      knex.schema.createTable('plans4', function (table) {
         table.increments('id').primary();
         table.string('name');
         table.string('description');
@@ -30,8 +30,8 @@ exports.up = function(knex) {
   
   exports.down = function(knex) {
     return Promise.all([
-      knex.schema.dropTable('posts2'),
-      knex.schema.dropTable('plans'),
+      knex.schema.dropTable('posts4'),
+      knex.schema.dropTable('plans4'),
      
     ])
   };
