@@ -1,8 +1,8 @@
 import React from 'react';
-import {server} from '../config'
+import {server} from '../../config'
 
 const Posts = ({data}) => {
-    console.log('data in client' ,data)
+    console.log('data in client' ,data.data)
     return (
         <div>
             posts page
