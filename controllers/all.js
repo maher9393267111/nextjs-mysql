@@ -295,5 +295,82 @@ export const CreatePost= async (req, res) => {
                 
 
 
+         export const CreateProduct= async (req, res) => {
+
+
+            
+
+            const { name, desc ,image,price,quantity,cat_id } = req.body;
+            console.log(req.body);
+        
+            const id = uuidv4(); 
+
+
+            try{
+            const create = await db('porducts').insert({
+                name,
+                price,
+                quantity,
+                desc,
+               id,
+               cat_id,
+                image: image ? image : 'https://via.placeholder.com/150'
+                
+            });
+            
+            console.log('create',create)
+            const createdData = await db('porducts').where('id', id).first();
+        
+
+
+
+            console.log('createdData',createdData)
+            res.status(200);
+            res.json({
+                message: 'Product created successfully',
+                data: createdData
+            });
+           
+         
+        }   catch(err){
+        
+            console.log(err)
+            res.status(500);
+            res.json({
+                message: 'Error creating category',
+                data: err
+            });
+        
+        }
+    }
+
 
         
+
+    export const  AllProducts = async (req, res ,next) => {
+
+        try { 
+     const products = await db('porducts');
+     // find all products and  populate the category
+        const productsWithCategory = await db('porducts').join('categories', 'categories.id', '=', 'porducts.cat_id');
+     
+
+
+
+     res.status(200);
+     res.json({
+         message: ' porducts data',
+         data: productsWithCategory
+     });
+     
+        } catch (error) {
+     
+         res.status(500).json({
+             message: 'Error',
+             data: error.message
+        });
+     }
+     
+     
+     }
+     
