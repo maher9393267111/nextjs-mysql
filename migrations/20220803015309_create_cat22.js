@@ -1,11 +1,12 @@
 exports.up = async function (knex) {
     await knex.schema.createTable("categories", (t) => {
-      t.uuid("id").primary().notNullable().defaultTo(knex.raw("uuid_generate_v4()"));
+      t.uuid("id").primary().notNullable()
+      //.defaultTo(knex.raw("uuid_generate_v4()"));
       t.string("name", 100).notNullable();
       t.string("desc", 100).notNullable();
       t.string("image", 20000).notNullable();
   
-      t.timestamps(true, true);
+     // t.timestamps(true, true);
     });
   
     await knex.schema.createTable("porducts", (t) => {
@@ -18,12 +19,14 @@ exports.up = async function (knex) {
       t.string("image", 20000).notNullable();
       t.integer("price").notNullable();
       t.integer("quantity").notNullable();
+
       t
         .jsonb("object")
         .defaultTo({ keys: [], status: "private" })
         .notNullable();
+      //  t.string("status", 100).notNullable();
   
-      t.timestamps(true, true);
+     // t.timestamps(true, true);
      
     });
   

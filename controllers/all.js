@@ -386,7 +386,16 @@ const concatcategory = products.map(product => {
 
      // change product quantity
 
-        export const ChangeProductQuantity = async (req, res) => {
+        export const ChangeProductQuantity1 = async (req, res) => {
+
+
+//  update object that have array  name keys
+          
+
+
+
+
+
 
             const { id, quantity} = req.body;
             console.log(req.body);
@@ -394,17 +403,27 @@ const concatcategory = products.map(product => {
             try{
             const change = await db('porducts').where('id', id).update({
                 
-                quantity
+                quantity ,
+              
             });
             
             console.log('change',change)
-            const changedData = await db('porducts').where('id', id).first();
+
+            // find product data by id
+            const changedData = await db('porducts').where('id', id).first()
+
+// find product data by id with populated category
+
+        const producthcatdata =    await db('porducts').join('categories', 'categories.id', '=', 'porducts.cat_id').where('porducts.id', id).first();
+     
+           
+
+
         
-            console.log('changedData',changedData)
             res.status(200);
             res.json({
                 message: 'Product quantity changed successfully',
-                data: changedData
+                data: producthcatdata
             });
            
          
@@ -424,3 +443,57 @@ const concatcategory = products.map(product => {
         
 
 
+    // //  update object that have array  name keys
+
+    export const  ChangeProductQuantity = async (req, res) => {
+
+const {keys,id}  = req.body;
+console.log(req.body);
+
+ 
+
+   // fetch where id == id product
+
+
+
+
+
+
+        try{
+            const product = await db('porducts').where('id', id).first();
+
+
+            console.log('product',product?.object)
+
+// parse  product.object items  that have form json
+const p = JSON.parse(product?.object);
+console.log('p',p)
+
+p.keys = keys;
+
+
+
+            const change = await db('porducts').where('id', id).update({
+           object: JSON.stringify(p),
+           meme:'maher'
+            });
+
+            // find product data by id after update
+            const changedData = await db('porducts').where('id', id).first()
+
+          
+
+            res.status(200).json({
+                message: 'Product  changed successfully',
+                data: changedData
+            });
+
+        }   catch(err){
+            res.status(500).json({
+                message: 'Error changing product quantity',
+                data: err.message
+            });
+        }
+
+
+    }
