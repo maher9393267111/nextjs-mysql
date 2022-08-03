@@ -351,7 +351,7 @@ export const CreatePost= async (req, res) => {
 
         try { 
      const products = await db('porducts');
-     // find all products and  populate the category
+     // find  all categories that have cat_id in products
         const productsWithCategory = await db('porducts').join('categories', 'categories.id', '=', 'porducts.cat_id');
      
 
@@ -367,7 +367,8 @@ const concatcategory = products.map(product => {
      res.status(200);
      res.json({
          message: ' porducts data',
-         data: concatcategory
+        // data: concatcategory
+        data:productsWithCategory
      });
      
         } catch (error) {
@@ -381,3 +382,45 @@ const concatcategory = products.map(product => {
      
      }
      
+
+
+     // change product quantity
+
+        export const ChangeProductQuantity = async (req, res) => {
+
+            const { id, quantity} = req.body;
+            console.log(req.body);
+        
+            try{
+            const change = await db('porducts').where('id', id).update({
+                
+                quantity
+            });
+            
+            console.log('change',change)
+            const changedData = await db('porducts').where('id', id).first();
+        
+            console.log('changedData',changedData)
+            res.status(200);
+            res.json({
+                message: 'Product quantity changed successfully',
+                data: changedData
+            });
+           
+         
+        }   catch(err){
+        
+            console.log(err)
+            res.status(500);
+            res.json({
+                message: 'Error changing product quantity',
+                data: err.message
+            });
+        
+        }
+    }
+
+
+        
+
+
