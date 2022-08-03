@@ -355,12 +355,19 @@ export const CreatePost= async (req, res) => {
         const productsWithCategory = await db('porducts').join('categories', 'categories.id', '=', 'porducts.cat_id');
      
 
+//concaty every prodduct  where cat_id == category.id
 
+const concatcategory = products.map(product => {
+    return {
+        ...product,
+        category: productsWithCategory.find(category => category.id === product.cat_id).name
+    }
+})
 
      res.status(200);
      res.json({
          message: ' porducts data',
-         data: productsWithCategory
+         data: concatcategory
      });
      
         } catch (error) {
