@@ -3,7 +3,7 @@
 import  db from '../lib/dbknex'
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
+import { v4 as uuidv4 } from 'uuid';
 
 export const Allposts= async (req, res ,next) => {
 
@@ -35,7 +35,7 @@ export const CreatePost= async (req, res) => {
     console.log(req.body);
 
     try{
-    const create = await db('posts4').insert({
+    const create = await db('post4').insert({
         title,
         content,
         
@@ -221,3 +221,79 @@ export const CreatePost= async (req, res) => {
 
 
         }
+
+
+
+
+        export const CreateCategory= async (req, res) => {
+
+
+            
+
+                const { name, desc ,image } = req.body;
+                console.log(req.body);
+            
+                const id = uuidv4(); 
+
+
+                try{
+                const create = await db('categories').insert({
+                    name,
+                    desc,
+                   id,
+                    image: image ? image : 'https://via.placeholder.com/150'
+                    
+                });
+                
+                console.log('create',create)
+                const createdData = await db('categories').where('id', id).first();
+            
+                console.log('createdData',createdData)
+                res.status(200);
+                res.json({
+                    message: 'category created successfully',
+                    data: createdData
+                });
+               
+             
+            }   catch(err){
+            
+                console.log(err)
+                res.status(500);
+                res.json({
+                    message: 'Error creating category',
+                    data: err
+                });
+            
+            }
+        }
+
+            
+                
+        export const  AllCategories = async (req, res ,next) => {
+
+            try { 
+         const categories = await db('categories');
+         
+         res.status(200);
+         res.json({
+             message: 'categories data',
+             data: categories
+         });
+         
+            } catch (error) {
+         
+             res.status(500).json({
+                 message: 'Error',
+                 data: error.message
+            });
+         }
+         
+         
+         }
+         
+                
+
+
+
+        
